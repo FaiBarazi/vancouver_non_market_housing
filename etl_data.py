@@ -6,13 +6,10 @@ from pathlib import Path
 import json
 import pandas as pd
 
-import logging
 
 repo_path = Path.cwd()
 data_path = repo_path/'data'
 non_market_path = data_path/'non-market-housing.csv'
-
-logger = logging.getLogger(__name__)
 
 
 def non_market_dataframe():
@@ -23,10 +20,8 @@ def non_market_dataframe():
         column: 0 for column in non_market_df.columns if column.startswith('Design')
         }
     # Update design type
-    non_market_df = non_market_df.fillna(value=design_columns)
-    non_market_df = non_market_df.fillna(value={'Operator': 'not specified'})
-
-    logging.warning(f'I am df {non_market_df}')
+    non_market_df.fillna(value=design_columns, inplace=True)
+    non_market_df.fillna(value={'Operator': 'not specified'}, inplace=True)
     # Turn json/str to a dictionary to extract coordiantes
     # Note the coordinates are written as [long, lat]
     geometry_series = non_market_df['Geom'].apply(lambda x: json.loads(x))
