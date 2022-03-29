@@ -2,8 +2,8 @@ import dash
 from dash import dcc
 from dash import html
 import plotly.express as px
-import os
 
+from constants import MAPBOX_TOKEN
 from etl_data import (
     non_market_dataframe, design_type_dataframe,
     clientele_type_dataframe)
@@ -18,12 +18,8 @@ main_df = non_market_dataframe()
 design_type_df = design_type_dataframe()
 clientele_df = clientele_type_dataframe()
 
-# Update me. Properly access the required token for mapbox for deployement.
-token = os.environ['MAPBOX_TOKEN']
-
-
 # TODO: Read the token form a text file. Easier
-px.set_mapbox_access_token(token)
+px.set_mapbox_access_token(MAPBOX_TOKEN)
 
 # All figures here.
 fig = px.scatter_mapbox(
